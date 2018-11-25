@@ -1,0 +1,113 @@
+package com.nmit.spark.pagerank
+
+import org.apache.spark.SparkContext
+import org.apache.spark.SparkConf
+import org.apache.spark.HashPartitioner
+
+/**
+  *  Problem statement:
+  *  pageRank of a page is defined by the following algorithm:
+  * 
+  *  1. initialize rank(page) = 1.0
+  *  2. contribution(page) to its neighbours = pagerank(page) / number of nbrs of page.
+  * 
+  *  reiterate the following steps until the rank's stabilize. 
+  *  We suggest reiterating the following steps 10 times. 
+  * 
+  *  3. rank(page) = 0.15 + 0.85 * sum( contribution from neighbour )
+  *  4. recompute contribution as per step 2.
+  * 
+  * The first argument, args[0], should contain the path to the text file which contain 
+  * the pages, and the neighbours of the page.
+  * A Sample of the input is as below. 
+  * The first entry is the id of a page. 
+  * The second id is the id of a page to which the first page has a link.
+  * 
+  * pageA pageB
+  * pageA pageC
+  * pageB pageA
+  * pageB pageD
+  * pageC pageB
+  * pageD pageA
+  * pageD pageB
+  * pageD pageC
+  * 
+  * As per the above data, pageA has links to pageB and pageC.
+  * 
+  * A sample data file is available as pageLinks_sample.txt.
+
+  * The second argument to the program, args[1], should contain the name of the folder
+  * where the pageranks should be ritten.
+  * */
+
+object pagerank {
+
+  def main(args: Array[String]) {
+
+    // the checks for the argument are minimal and not robust.
+    if (args.length != 2) {
+      println()
+      println("Dude, I need exactly two arguments.")
+      println("But you have given me only " + args.length +".")
+      println("First argument should be path to text file whose word count is desired.")
+      println("Second argument should be name of the folder where the word counts should be written.")
+      System.exit(1)
+    }
+
+    // create a sparkcontext.
+    val conf = new SparkConf()
+                        .setAppName("pageRank")
+                        .setMaster("local[*]") 
+
+    val sc = new SparkContext(conf)
+
+    // TODO: read in the neighbouring information from args[0] into an RDD.
+    // Initial RDD will be of the form (sourcePage, nrbPage).
+    // from the initial RDD create an RDD where all the nbrPage's of sourcePage is collected in the form
+    // of a list. The resultant RDD will have elements such as (sourcePage, List of all neighbour pages), e.g.
+    // (pageA, (pageB, pageC)).
+    // since this RDD will be reused in every iteration for recomputing the pagerank,
+    // hash it and persist it for improved performance. Let this be the pageLinks RDD.
+
+    // Initialize each page's rank to 1.0. You can create the RDD from the pageLinks RDD.
+    // Since the ranks will keep getting updated, we need ranks to be a var and not a val.
+    var ranks = pageLinks.mapValues(v => 1.0)
+
+    // TODO: also find the number of neighbours for each page.
+    // since we generate them from pageLinks using mapValues, the resulting RDD's
+    // will have the same partitioner as links.
+    // Let the RDD be numNbrs.
+
+    // Run 10 iterations of PageRank
+
+    for (i <- 0 until 10) {
+
+      // TODO: compute contributions for each page by taking the ranks RDD, joining it with
+      // the numNbrs RDD, and mapping the (rank, numNbrs) with rank/numNbrs. 
+
+      // TODO: distribute the contributions to each neighbour.
+      // for every page, we have the RDD of neighbours e.g. (pageA, (pageB, pageC)).
+      // for every page we also have the contribution of the page as a RDD, e.g. (pageA, contribA).
+      // create an RDD with elements such as (pageB, contribA), (pageC, contribA).
+      // Since pageB can be a neighbour of multiple source pages, the RDD can have multiple
+      // elements (pageB, contribA), (pageB, ...) for each page.
+      val distrContributions = pageLinks.join(contributions).flatMap {
+	case (pageId, (links, contr)) =>
+          links.map(dest => (dest, contr))
+      }
+
+      // TODO: collect the contributions from each neighbour, by using reduceByKey on the
+      // above RDD and use pageRank formula to recompute the pagerank.
+      ranks = distrContributions.reduceByKey((x, y) => x + y).mapValues(v => 0.15 + 0.85*v)
+
+      // uncomment the code below if you want to see how the page ranks change
+      // over the 10 iterations.
+
+      // ranks.collect().foreach(println)
+      // println
+    }
+
+    // TODO: Write out the final ranks. Use the saveAsTextFile() method.
+
+  }
+}

@@ -1,0 +1,101 @@
+package com.nmit.spark.ipltopteams
+
+import org.apache.spark.sql.SparkSession
+
+/**
+  *  Problem statement:
+  *  1. If the user runs the program with argument "1", print the schemas of all the tables stored in each csv file
+  *     of the indian-premier-league-csv-dataset.
+  *  2. If the user runs the program with argument "2", print the names of the top three winningest teams in terms of the
+  *     number of matches won. The code should use dataframes and dataframe operations.
+  *
+ */
+
+object iplstats {
+
+ def main(args: Array[String]) {
+
+   // TODO: set the path to the folder where the csv files are kept.
+   val pathToDB = 
+
+   // create a sparksession which will allow accessing SQL or Dataframe functionality.
+   val sparkSession = SparkSession.builder().appName("My SQL Session").getOrCreate()
+   import sparkSession.implicits._
+  
+   // write a function which will read in all the csv files and print their schemas.
+
+   def print_all_schemas() {
+   
+     // read in Match.csv and print its schema.
+     val matchDF = sparkSession.read.format("csv").
+       option("sep", ",").
+       option("inferSchema", "true").
+       option("header", "true").
+       load(pathToDB + "/Match.csv")
+
+     println("Schema: Match Data")
+     matchDF.printSchema()
+   
+     // TODO: read in Player.csv and print its schema.
+
+     // TODO: read in Player_match.csv and print its schema.
+
+     // TODO: read in Season.csv and print its schema.
+
+     // TODO: read in Team.csv and print its schema.
+
+     // TODO: read in Ball_by_Ball.csv and print its schema.
+     
+   }
+
+   // Find the top three in terms of winning the most games. Print their names and the number of matches they
+   // have won.
+
+   def print_top_three() {
+
+     // Step 1. From Match.csv, create a dataframe which has the number of games won by each team_id.
+
+     // TODO: Read in Match.csv file into a dataframe.
+
+     // TODO: Select only the columns required to find the number of games won by each team. 
+
+     // TODO: Find the number of matches won by each team by using the groupBy operation on the dataframe.
+     //       and then counting the number of elements in each group.
+     //       Let this dataframe be matchesWon. 
+
+     // At the end of this step, we should have the matchesWon dataframe which has each team id, and the number of games
+     // won by that team. 
+
+     // Step 2. We need to know the team name corresponding to the team ID, and then find the top
+     // three teams.
+
+     // TODO: Read in the Team.csv since it has the team name for each team id. Let the resultant
+     //       dataframe be teamDF.
+
+     // TODO: Join the resulting dataFrame with matchesWon dataframe and sort the resultant dataframe
+     //       using the count column.
+
+     val matchesWonSortedWithTeamNames = matchesWon.
+       join(teamDF, matchesWon.col("Match_Winner_ID").equalTo(teamDF("Team_Id"))).
+       sort($"count".desc).
+
+     // TODO: Print the names of the top three teams.
+   }
+
+   // Call the appropriate function by checking the argument provided by the user.
+   if (args.length != 1) {
+      println()
+      println("Please specify whether you want to print schemas of tables in DB by specifying argument as 1.")
+      println("Or if you want to find the top three teams, specify argument as 2.")
+      System.exit(1)
+   }
+
+   if ((args.length == 1) && (args(0) == "1"))
+     print_all_schemas()
+   if ((args.length == 1) && (args(0) == "2"))
+     print_top_three()
+
+ }
+
+
+}

@@ -1,0 +1,12 @@
+Take an input from the user via the console of the number of elements he/she will provide for which minimum and maximum value have to be found. Assume that all the elements are of type Int.
+
+Let us say the user wants to provide 10 integers for which we have to find min and max.
+
+Read in the 10 integers from the console.
+
+Then print out the minimum and maximum.
+
+Look at the code outline and notice the use of the StdIn and ArrayBuffer packages.
+
+
+

@@ -1,0 +1,11 @@
+Use the same files used for IPLTopTeams application.
+
+We want to find the percentage of game wins by teams which win the toss.
+So lets say N games have been played.
+Let us say there are M games where the team which has won the toss has
+also won the game.
+So we are looking for the percentage (M * 100 / N).
+Perform the task using SQL code only.
+
+
+

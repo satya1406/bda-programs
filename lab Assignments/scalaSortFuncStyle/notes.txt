@@ -1,0 +1,8 @@
+// Write a function to implement quicksort in scala using functional style programming.
+// Use the filter operator with appropriate filters to find the elements less than the pivot
+// and the elements more than the pivot.
+// The sort should be recursive.
+
+// The elements to be sorted can be provided as a list in the main function itself
+// and the quicksort funtions should be called to sort the list elements.
+// print both the original list and the sorted list onto the console.

@@ -1,0 +1,18 @@
+Problem statement:
+  We will use the dataset with the 8198 reduced tweets, reduced-tweets.json. 
+  The data are reduced tweets as the example below:
+
+{"id":"572692378957430785",
+ "user":"Srkian_nishu :)",
+ "text":"@always_nidhi @YouTube no i dnt understand bt i loved of this mve is rocking",
+ "place":"Orissa",
+ "country":"India"}
+
+  We want to make some computations on the users:
+   - print the top 10 tweeters
+
+  A function to parse the tweets in the text file into an RDD of tweets will be provided.
+  
+Invoke program as below:
+
+spark-submit --master local[4] target/scala-2.11/usermining_2.11-1.0.jar "/home/subhrajit/sparkProjects/data/reduced-tweets.json"

@@ -1,0 +1,23 @@
+object scalasortfuncstyle {
+
+  def sort(a: List[Int]): List[Int] = {
+    if (a.length < 2) a
+    else {
+      // find the pivot element.
+
+      // find all elements smaller than the pivot element. sort them.
+      // find all elements equal to the pivot element.
+      // find all elements greater than the pivot element. sort them.
+
+      // the concatenation of the above three lists is the complete sorted list.
+    }
+  }
+
+  def main(args: Array[String]) {
+
+    val xs = List(6, 2, 8, 5, 1)
+    println(xs)
+    println(sort(xs))
+
+  }
+}

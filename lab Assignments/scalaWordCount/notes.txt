@@ -1,0 +1,26 @@
+Problem statement:
+-----------------
+The goal is to count how many times each word appears in a text file which is passed as an argumentt to the application.
+The word counts should be printed to the console.
+
+e.g.
+
+sbt "run /home/subhrajit/sparkProjects/scalaWordCount/notes.txt"
+
+should produce an output similar to the one below:
+
+Word is occurs 2 times
+Word This occurs 1 times
+etc.
+
+
+To compile, run the following command at the shell prompt.
+-----------------------------------------------------------
+sbt compile
+
+To run
+------
+Note: This application expects the complete path to a text file as a command line argument.
+The path needs to be passed as below:
+
+sbt "run /home/subhrajit/sparkProjects/scalaWordCount/notes.txt"

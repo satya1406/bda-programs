@@ -1,0 +1,24 @@
+import scala.io.Source
+
+object scalaWordCount {
+
+  def main(args: Array[String]) {
+
+    if (args.length != 1) {
+      System.err.println("Usage: sbt "run /Path/to/file.txt")
+      System.exit(1)
+    }
+
+    val filename = args(0)
+
+    // initialize a mutable map of tuples, where the first element is of type string
+    // and the second of type integer.
+  
+    for (line <- Source.fromFile(filename).getLines)
+      // split the sentence into words separated by space character.
+      // and for each word, update the word count in the mutable map.
+
+    // print the map.
+    
+  }
+}
